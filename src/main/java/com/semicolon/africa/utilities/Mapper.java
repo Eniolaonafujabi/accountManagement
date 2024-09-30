@@ -110,14 +110,11 @@ public class Mapper {
     public User map(UserRegistrationRequest userRegistrationRequest, User user){
         user.setFirstName(userRegistrationRequest.getFirstName());
         user.setLastName(userRegistrationRequest.getLastName());
-        user.setEmail(validateEmail(userRegistrationRequest.getEmail()));
+        user.setEmail(userRegistrationRequest.getEmail());
         user.setPassword(userRegistrationRequest.getPassword());
         user.setIndustry(userRegistrationRequest.getIndustry());
         user.setRole(userRegistrationRequest.getRole());
         return user;
     }
-    private String validateEmail(String email){
-        if(!Objects.equals(email, "") && !Objects.equals(email, " ") && email.contains("a")){return email;}
-        else{throw new InvalidEmailException("Invalid email");}
-    }
+
 }

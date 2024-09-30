@@ -3,6 +3,7 @@ package com.semicolon.africa.userServiceTest;
 import com.semicolon.africa.data.repositories.UserRepository;
 import com.semicolon.africa.dtos.requests.UserRegistrationRequest;
 import com.semicolon.africa.dtos.response.UserRegistrationResponse;
+import com.semicolon.africa.exception.InvalidEmailException;
 import com.semicolon.africa.exception.InvalidPasswordException;
 import com.semicolon.africa.services.Interfaces.UserServices;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,7 +51,21 @@ public class UserServiceTest {
         userRegistrationRequest.setEmail(" ");
         userRegistrationRequest.setIndustry(AGRICULTURE);
         userRegistrationRequest.setRole(USER);
-        userRegistrationRequest.setPassword("123456789");
+        userRegistrationRequest.setPassword("12345678");
+
+        assertThrows(InvalidEmailException.class, () -> {
+            userServices.createUserAccount(userRegistrationRequest);  // This should throw the exception
+        });
+    }
+    @Test
+    void testThatExceptionIsThrownIfPasswordIsInvalid(){
+        UserRegistrationRequest userRegistrationRequest = new UserRegistrationRequest();
+        userRegistrationRequest.setFirstName("David");
+        userRegistrationRequest.setLastName("Odo");
+        userRegistrationRequest.setEmail("james@gmail.com");
+        userRegistrationRequest.setIndustry(AGRICULTURE);
+        userRegistrationRequest.setRole(USER);
+        userRegistrationRequest.setPassword(" ");
 
         assertThrows(InvalidPasswordException.class, () -> {
             userServices.createUserAccount(userRegistrationRequest);  // This should throw the exception
